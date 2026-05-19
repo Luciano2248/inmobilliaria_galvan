@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Propiedades en Tandil | De Galvagni Díaz – Estudio Inmobiliario</title>
+  <meta name="description" content="Explorá más de 180 propiedades en Tandil: casas, departamentos y lotes. De Galvagni Díaz, tu inmobiliaria de confianza." />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #c9a84c; --gold-light: #e8c97a;
+      --dark: #1a1a2e; --dark2: #16213e;
+      --text: #2d2d2d; --text-light: #6b7280;
+      --white: #ffffff; --bg: #f8f6f1; --border: #e5e0d5;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 5%;
+      background: rgba(26,26,46,0.98);
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--gold), var(--gold-light)); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .nav-logo-text { font-family: 'Playfair Display', serif; color: var(--white); font-size: 1.1rem; line-height: 1.2; }
+    .nav-logo-text span { color: var(--gold); display: block; font-size: 0.7rem; font-family: 'Inter', sans-serif; letter-spacing: 2px; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--dark) !important; padding: 10px 22px; border-radius: 6px; font-weight: 600 !important; }
+
+    /* PAGE HEADER */
+    .page-header {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 100%);
+      padding: 100px 5% 40px;
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+    .page-header-inner { max-width: 1200px; margin: 0 auto; }
+    .breadcrumb { font-size: 0.82rem; color: rgba(255,255,255,0.5); margin-bottom: 12px; }
+    .breadcrumb a { color: var(--gold); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .page-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.4rem); color: var(--white); margin-bottom: 8px; }
+    .page-header h1 em { color: var(--gold); font-style: normal; }
+    .page-header p { color: rgba(255,255,255,0.6); font-size: 0.95rem; }
+
+    /* FILTER BAR */
+    .filter-bar {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 5%;
+      position: sticky; top: 77px; z-index: 50;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .filter-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .filter-inner select {
+      padding: 9px 14px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text);
+      background: var(--white);
+      cursor: pointer;
+      transition: border-color 0.2s;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236b7280'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .filter-inner select:focus { outline: none; border-color: var(--gold); }
+    .filter-inner select.active-filter { border-color: var(--gold); background-color: rgba(201,168,76,0.05); }
+    .filter-reset {
+      padding: 9px 16px; border-radius: 8px;
+      border: 2px solid var(--border);
+      background: transparent; font-family: 'Inter', sans-serif;
+      font-size: 0.82rem; color: var(--text-light);
+      cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    }
+    .filter-reset:hover { border-color: var(--dark); color: var(--dark); }
+    .filter-count {
+      margin-left: auto;
+      font-size: 0.85rem; color: var(--text-light);
+      white-space: nowrap;
+    }
+    .filter-count strong { color: var(--dark); font-weight: 700; }
+
+    /* MAIN CONTENT */
+    .props-main { padding: 40px 5% 60px; background: var(--bg); min-height: 60vh; }
+    .props-container { max-width: 1200px; margin: 0 auto; }
+
+    /* GRID */
+    .props-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    /* CARD */
+    .prop-card { border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: var(--white); transition: transform 0.25s, box-shadow 0.25s; }
+    .prop-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.1); }
+    .prop-img { position: relative; height: 200px; overflow: hidden; background: #e5e0d5; }
+    .prop-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; display: block; }
+    .prop-card:hover .prop-img img { transform: scale(1.04); }
+    .prop-badge {
+      position: absolute; top: 12px; left: 12px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--dark); font-size: 0.72rem; font-weight: 700;
+      padding: 4px 10px; border-radius: 4px; letter-spacing: 0.5px;
+    }
+    .prop-badge.alq { background: linear-gradient(135deg,#4b9fff,#74b9ff); color: #fff; }
+    .prop-fav { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; background: rgba(255,255,255,0.92); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.95rem; transition: transform 0.2s; user-select: none; }
+    .prop-fav:hover { transform: scale(1.15); }
+    .prop-fav.saved { color: #e53e3e; }
+    .prop-body { padding: 16px; }
+    .prop-type { font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); margin-bottom: 5px; }
+    .prop-body h4 { font-family: 'Playfair Display', serif; font-size: 0.98rem; color: var(--dark); margin-bottom: 5px; line-height: 1.3; }
+    .prop-location { color: var(--text-light); font-size: 0.82rem; margin-bottom: 12px; }
+    .prop-features { display: flex; gap: 12px; flex-wrap: wrap; padding: 10px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 12px; min-height: 38px; }
+    .prop-feat { color: var(--text-light); font-size: 0.8rem; }
+    .prop-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .prop-price { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--dark); font-weight: 700; line-height: 1.2; }
+    .prop-price span { font-size: 0.72rem; color: var(--text-light); font-family: 'Inter', sans-serif; font-weight: 400; display: block; }
+    .btn-prop { background: var(--dark); color: var(--white); padding: 7px 16px; border-radius: 6px; text-decoration: none; font-size: 0.82rem; font-weight: 600; transition: background 0.2s; white-space: nowrap; }
+    .btn-prop:hover { background: var(--gold); color: var(--dark); }
+
+    /* LOAD MORE */
+    .load-more-wrap { text-align: center; margin-top: 48px; }
+    .btn-load-more {
+      background: var(--white); color: var(--dark);
+      border: 2px solid var(--border); padding: 14px 36px;
+      border-radius: 8px; font-family: 'Inter', sans-serif;
+      font-size: 0.95rem; font-weight: 600; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-load-more:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* NO RESULTS */
+    .no-results { text-align: center; padding: 80px 20px; }
+    .no-results p { font-size: 1.1rem; color: var(--text-light); margin-bottom: 20px; }
+    .btn-reset-link { background: var(--dark); color: var(--white); border: none; padding: 12px 28px; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .btn-reset-link:hover { background: var(--gold); color: var(--dark); }
+
+    /* CTA BANNER */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--dark2) 100%);
+      padding: 64px 5%; text-align: center;
+    }
+    .cta-banner h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--white); margin-bottom: 12px; }
+    .cta-banner p { color: rgba(255,255,255,0.65); margin-bottom: 32px; font-size: 1.05rem; }
+    .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--dark); padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.95rem; transition: transform 0.2s, box-shadow 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(201,168,76,0.4); }
+    .btn-sec { background: transparent; color: var(--white); padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.95rem; border: 2px solid rgba(255,255,255,0.3); transition: border-color 0.2s; }
+    .btn-sec:hover { border-color: var(--gold); }
+
+    /* FOOTER */
+    footer { background: var(--dark); color: rgba(255,255,255,0.7); padding: 48px 5% 20px; }
+    .footer-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-brand p { font-size: 0.9rem; line-height: 1.7; max-width: 260px; margin-top: 14px; }
+    footer h4 { color: var(--white); font-size: 0.82rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px; }
+    footer ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    footer ul a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+    footer ul a:hover { color: var(--gold); }
+    .footer-bottom { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem; flex-wrap: wrap; gap: 10px; }
+    .footer-bottom a { color: var(--gold); text-decoration: none; }
+
+    /* WA FLOAT */
+    .wa-float { position: fixed; bottom: 28px; right: 28px; z-index: 99; width: 56px; height: 56px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; text-decoration: none; box-shadow: 0 4px 20px rgba(37,211,102,0.5); transition: transform 0.2s; }
+    .wa-float:hover { transform: scale(1.1); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } .nav-links { display: none; } }
+    @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; } .filter-inner { gap: 8px; } .filter-count { width: 100%; margin-left: 0; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">
+    <div class="nav-logo-icon">🏠</div>
+    <div class="nav-logo-text">De Galvagni Díaz <span>Estudio Inmobiliario</span></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Inicio</a>
+    <a href="propiedades.html">Propiedades</a>
+    <a href="index.html#servicios">Servicios</a>
+    <a href="index.html#contacto">Contacto</a>
+    <a href="https://wa.me/5492494449550" class="nav-cta" target="_blank">📞 Consultar</a>
+  </div>
+</nav>
+
+<header class="page-header">
+  <div class="page-header-inner">
+    <div class="breadcrumb"><a href="index.html">Inicio</a> / <span>Propiedades</span></div>
+    <h1>Propiedades en <em>Tandil</em></h1>
+    <p>Más de 180 propiedades disponibles · Casas, departamentos, lotes y más</p>
+  </div>
+</header>
+
+<div class="filter-bar" id="filterBar">
+  <div class="filter-inner">
+    <select id="fTipo" onchange="applyFilters()">
+      <option value="">Todos los tipos</option>
+      <option value="casa">Casas</option>
+      <option value="departamento">Departamentos</option>
+      <option value="lote">Lotes</option>
+    </select>
+    <select id="fOp" onchange="applyFilters()">
+      <option value="">Compra y alquiler</option>
+      <option value="venta">En venta</option>
+      <option value="alquiler">En alquiler</option>
+    </select>
+    <select id="fDorm" onchange="applyFilters()">
+      <option value="">Dormitorios</option>
+      <option value="1">1 dormitorio</option>
+      <option value="2">2 dormitorios</option>
+      <option value="3">3 dormitorios</option>
+      <option value="4">4+ dormitorios</option>
+    </select>
+    <select id="fPrecio" onchange="applyFilters()">
+      <option value="">Cualquier precio</option>
+      <option value="0-50000">Hasta USD 50.000</option>
+      <option value="50000-100000">USD 50.000 – 100.000</option>
+      <option value="100000-200000">USD 100.000 – 200.000</option>
+      <option value="200000-500000">USD 200.000 – 500.000</option>
+      <option value="500000+">Más de USD 500.000</option>
+    </select>
+    <select id="fOrden" onchange="applyFilters()">
+      <option value="precio_asc">Menor precio</option>
+      <option value="precio_desc">Mayor precio</option>
+    </select>
+    <button class="filter-reset" onclick="resetFilters()">✕ Limpiar</button>
+    <div class="filter-count"><strong id="resultsCount">180</strong> propiedades</div>
+  </div>
+</div>
+
+<main class="props-main">
+  <div class="props-container">
+    <div class="props-grid" id="propsGrid"></div>
+    <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
+      <button class="btn-load-more" onclick="loadMore()">Cargar más propiedades ↓</button>
+    </div>
+    <div class="no-results" id="noResults" style="display:none">
+      <p>No encontramos propiedades con esos filtros.</p>
+      <button class="btn-reset-link" onclick="resetFilters()">Ver todas las propiedades</button>
+    </div>
+  </div>
+</main>
+
+<section class="cta-banner">
+  <h2>¿No encontraste lo que buscás?</h2>
+  <p>Tenemos más propiedades disponibles. Hablá con nuestros asesores.</p>
+  <div class="cta-btns">
+    <a href="index.html#contacto" class="btn-primary">💬 Consultar a un asesor</a>
+    <a href="https://wa.me/5492494449550?text=Hola,%20busco%20una%20propiedad%20en%20Tandil." target="_blank" class="btn-sec">WhatsApp directo</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="nav-logo" href="index.html">
+        <div class="nav-logo-icon">🏠</div>
+        <div class="nav-logo-text" style="color:white">De Galvagni Díaz <span>Estudio Inmobiliario</span></div>
+      </a>
+      <p>Más de 35 años de experiencia en Tandil. Chacabuco 726 · (0249) 444-9550</p>
+    </div>
+    <div>
+      <h4>Propiedades</h4>
+      <ul>
+        <li><a href="propiedades.html?op=venta&tipo=casa">Casas en venta</a></li>
+        <li><a href="propiedades.html?op=alquiler">En alquiler</a></li>
+        <li><a href="propiedades.html?tipo=departamento">Departamentos</a></li>
+        <li><a href="propiedades.html?tipo=lote">Lotes</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Servicios</h4>
+      <ul>
+        <li><a href="index.html#servicios">Compra y venta</a></li>
+        <li><a href="index.html#servicios">Tasaciones</a></li>
+        <li><a href="index.html#servicios">Administración</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contacto</h4>
+      <ul>
+        <li><a href="tel:+5492494449550">📞 (0249) 444-9550</a></li>
+        <li><a href="https://wa.me/5492494449550" target="_blank">💬 WhatsApp</a></li>
+        <li><a href="mailto:degalvagnidiaz@gmail.com">✉️ Email</a></li>
+        <li><a href="https://www.instagram.com/degalvagnidiaz.inmobiliaria/" target="_blank">📸 Instagram</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 De Galvagni Díaz · Chacabuco 726, Tandil, Buenos Aires</span>
+    <a href="mailto:degalvagnidiaz@gmail.com">degalvagnidiaz@gmail.com</a>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5492494449550?text=Hola,%20me%20comunico%20desde%20la%20web." target="_blank" title="WhatsApp">💬</a>
+
+<script>
+const BASE = 'https://www.degalvagnidiaz.com.ar/';
+
+const IMGS = {
+  casa: ['photo-1564013799919-ab600027ffc6','photo-1570129477492-45c003edd2be','photo-1568605114967-8130f3a36994','photo-1513584684374-8bab748fbf90','photo-1512917774080-9991f1c4c750','photo-1523217582562-09d0def993a6','photo-1518780664697-55e3ad937233'],
+  departamento: ['photo-1502672260266-1c1ef2d93688','photo-1545324418-cc1a3fa10c00','photo-1522708323590-d24dbb6b0267','photo-1560448204-e02f11c3d0e2','photo-1484154218962-a197022b5858','photo-1536376072261-38c75010e6c9'],
+  lote: ['photo-1500382017468-9049fed747ef','photo-1464822759023-fed622ff2c3b','photo-1500534314209-a25ddb2bd429','photo-1472214103451-9374bd1c798e','photo-1524813686514-a57563d0010f']
+};
+
+const PROPS = [
+  // CASAS EN VENTA (44)
+  {tipo:'casa',op:'venta',addr:'Cabral 1811',price:40000,cur:'USD',beds:2,m2:50,slug:'casas-en-venta-en-tandil-cabral--1811-46527-90.html'},
+  {tipo:'casa',op:'venta',addr:'Nigro 1951',price:45000,cur:'USD',beds:2,m2:75,slug:'casas-en-venta-en-tandil-nigro-1951-49806-90.html'},
+  {tipo:'casa',op:'venta',addr:'Pizzorno 220',price:50000,cur:'USD',beds:2,m2:80,slug:'casas-en-venta-en-tandil-pizzorno-220-43490-90.html'},
+  {tipo:'casa',op:'venta',addr:'Guisse 328',price:55000,cur:'USD',beds:2,m2:66,slug:'casas-en-venta-en-tandil-guisse-328-32676-90.html'},
+  {tipo:'casa',op:'venta',addr:'A. Santamarina (Villa del Lago) 575',price:65000,cur:'USD',beds:1,m2:360,slug:'casas-en-venta-en-tandil-a.-santamarina-(villa-del-lago)-575-47524-90.html'},
+  {tipo:'casa',op:'venta',addr:'Corrientes 691',price:65000,cur:'USD',beds:2,m2:150,slug:'casas-en-venta-en-tandil-corrientes--691--41409-90.html'},
+  {tipo:'casa',op:'venta',addr:'Bereterbide 524',price:79000,cur:'USD',beds:null,m2:130,slug:'casas-en-venta-en-tandil-bereterbide-524-16614-90.html'},
+  {tipo:'casa',op:'venta',addr:'19 de Agosto (Gardey) 275',price:80000,cur:'USD',beds:1,m2:47,slug:'casas-en-venta-en-tandil-19-de-agosto-(gardey)-275-49800-90.html'},
+  {tipo:'casa',op:'venta',addr:'Lima y Matorras de San Martín',price:85000,cur:'USD',beds:2,m2:65,slug:'casas-en-venta-en-tandil-lima-y-matorras-de-san-martin-8745-90.html'},
+  {tipo:'casa',op:'venta',addr:'Dorrego 120',price:95000,cur:'USD',beds:3,m2:105,slug:'casas-en-venta-en-tandil-dorrego--120-50815-90.html'},
+  {tipo:'casa',op:'venta',addr:'Patagonia 178',price:105000,cur:'USD',beds:2,m2:100,slug:'casas-en-venta-en-tandil-patagonia-178-47521-90.html'},
+  {tipo:'casa',op:'venta',addr:'Bisogni (Cerro Leones) 2542',price:125000,cur:'USD',beds:null,m2:120,slug:'casas-en-venta-en-tandil-bisogni-(cerro-leones)-2542--31907-90.html'},
+  {tipo:'casa',op:'venta',addr:'Purmamarca y Riato 614',price:125000,cur:'USD',beds:2,m2:58,slug:'casas-en-venta-en-tandil-purmamarca-y-riato-614-48394-90.html'},
+  {tipo:'casa',op:'venta',addr:'Alberdi 764',price:130000,cur:'USD',beds:7,m2:430,slug:'casas-en-venta-en-tandil-alberdi--764-40465-90.html'},
+  {tipo:'casa',op:'venta',addr:'Rosales 529',price:135000,cur:'USD',beds:2,m2:260,slug:'casas-en-venta-en-tandil-rosales-529--15055-90.html'},
+  {tipo:'casa',op:'venta',addr:'Garibaldi 816',price:138000,cur:'USD',beds:3,m2:130,slug:'casas-en-venta-en-tandil-garibaldi-816-12027-90.html'},
+  {tipo:'casa',op:'venta',addr:'Liniers pas. Tierra de Fuego',price:140000,cur:'USD',beds:2,m2:128,slug:'casas-en-venta-en-tandil-liniers-pas-tierra-de-fuego-49915-90.html'},
+  {tipo:'casa',op:'venta',addr:'Basilico 1657',price:140000,cur:'USD',beds:3,m2:756,slug:'casas-en-venta-en-tandil-basilico--1657-51152-90.html'},
+  {tipo:'casa',op:'venta',addr:'Larrea esq. Rubén Darío',price:150000,cur:'USD',beds:2,m2:null,slug:'casas-en-venta-en-tandil-larrea-esq.-ruben-dario-49902-90.html'},
+  {tipo:'casa',op:'venta',addr:'Alsina 800',price:150000,cur:'USD',beds:3,m2:130,slug:'casas-en-venta-en-tandil-alsina-800--15644-90.html'},
+  {tipo:'casa',op:'venta',addr:'Machado 747',price:170000,cur:'USD',beds:7,m2:274,slug:'casas-en-venta-en-tandil-machado--747--35793-90.html'},
+  {tipo:'casa',op:'venta',addr:'Nigro 1597',price:170000,cur:'USD',beds:3,m2:325,slug:'casas-en-venta-en-tandil-nigro-1597--26735-90.html'},
+  {tipo:'casa',op:'venta',addr:'Irigoyen 800 Interno',price:170000,cur:'USD',beds:5,m2:200,slug:'casas-en-venta-en-tandil-irigoyen-800-interno-24814-90.html'},
+  {tipo:'casa',op:'venta',addr:'Av. Rivadavia 733',price:180000,cur:'USD',beds:null,m2:120,slug:'casas-en-venta-en-tandil-av.-rivadavia-733---29887-90.html'},
+  {tipo:'casa',op:'venta',addr:'Country Cardón Miramar Links',price:185000,cur:'USD',beds:2,m2:135,slug:'casas-en-venta-en-tandil-country-cardon-miramar-links-0--43493-90.html'},
+  {tipo:'casa',op:'venta',addr:'Circuito Turístico 2438',price:185000,cur:'USD',beds:3,m2:166,slug:'casas-en-venta-en-tandil-circuito-turistico-2438-47997-90.html'},
+  {tipo:'casa',op:'venta',addr:'Laprida 2456',price:189000,cur:'USD',beds:2,m2:185,slug:'casas-en-venta-en-tandil-laprida-2456--20424-90.html'},
+  {tipo:'casa',op:'venta',addr:'9 de Julio 1239',price:195000,cur:'USD',beds:3,m2:180,slug:'casas-en-venta-en-tandil-c.-9-de-juli-1239-51113-90.html'},
+  {tipo:'casa',op:'venta',addr:'Montiel 755',price:200000,cur:'USD',beds:3,m2:177,slug:'casas-en-venta-en-tandil-montiel-755-20850-90.html'},
+  {tipo:'casa',op:'venta',addr:'Riato 920',price:205425,cur:'USD',beds:3,m2:124,slug:'casas-en-venta-en-tandil-riato-920-48393-90.html'},
+  {tipo:'casa',op:'venta',addr:'Pinto 937',price:215000,cur:'USD',beds:2,m2:170,slug:'casas-en-venta-en-tandil-pinto-937-50384-90.html'},
+  {tipo:'casa',op:'venta',addr:'Rubén Darío 726',price:230000,cur:'USD',beds:3,m2:160,slug:'casas-en-venta-en-tandil-ruben-dario-726--34845-90.html'},
+  {tipo:'casa',op:'venta',addr:'Chacabuco 242',price:240000,cur:'USD',beds:3,m2:183,slug:'casas-en-venta-en-tandil-chacabuco-242-41918-90.html'},
+  {tipo:'casa',op:'venta',addr:'Martín Fierro 600',price:250000,cur:'USD',beds:3,m2:139,slug:'casas-en-venta-en-tandil-martin-fierro-600-32969-90.html'},
+  {tipo:'casa',op:'venta',addr:'Las Mentas',price:250000,cur:'USD',beds:5,m2:3250,slug:'casas-en-venta-en-tandil-las-mentas-0--27395-90.html'},
+  {tipo:'casa',op:'venta',addr:'25 de Mayo 1040',price:280000,cur:'USD',beds:3,m2:224,slug:'casas-en-venta-en-tandil-25-de-mayo-1040-47100-90.html'},
+  {tipo:'casa',op:'venta',addr:'Centinela Ronca Hue y Cari Cura',price:295000,cur:'USD',beds:3,m2:180,slug:'casas-en-venta-en-tandil-centinela-ronca-hue-y-cari-cura-28541-90.html'},
+  {tipo:'casa',op:'venta',addr:'Irigoyen entre Montevideo y Pellegrini',price:300000,cur:'USD',beds:4,m2:250,slug:'casas-en-venta-en-tandil-irigoyen-entre-montevideo-y-pellegrini-0-27921-90.html'},
+  {tipo:'casa',op:'venta',addr:'Zona Bco. Provincia',price:380000,cur:'USD',beds:3,m2:250,slug:'casas-en-venta-en-tandil-zona-bco.-provincia-50500-90.html'},
+  {tipo:'casa',op:'venta',addr:'Lamadrid al 700',price:420000,cur:'USD',beds:4,m2:260,slug:'casas-en-venta-en-tandil-lamadrid-al-700-47041-90.html'},
+  {tipo:'casa',op:'venta',addr:'Paz 635',price:450000,cur:'USD',beds:4,m2:581,slug:'casas-en-venta-en-tandil-paz--635-41031-90.html'},
+  {tipo:'casa',op:'venta',addr:'Country Altos Aires – Barrio Serrano 140',price:500000,cur:'USD',beds:3,m2:327,slug:'casas-en-venta-en-tandil-country-altos-aires-barrio-serrano-140-46410-90.html'},
+  {tipo:'casa',op:'venta',addr:'Fernández de la Cruz 952',price:520000,cur:'USD',beds:4,m2:300,slug:'casas-en-venta-en-tandil-fernandez-de-la-cruz-952-49067-90.html'},
+  {tipo:'casa',op:'venta',addr:'Bo. La Rosa – Fernando de la Cruz 1762',price:580000,cur:'USD',beds:4,m2:378,slug:'casas-en-venta-en-tandil-bo.-la-rosa---fernando-de-la-cruz--1762-45326-90.html'},
+  // DEPARTAMENTOS EN VENTA (48)
+  {tipo:'departamento',op:'venta',addr:'Alberdi 880',price:43000,cur:'USD',beds:1,m2:38,slug:'departamentos-en-venta-en-tandil-alberdi-880-49385-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Pinto 1730',price:49000,cur:'USD',beds:1,m2:40,slug:'departamentos-en-venta-en-tandil-pinto-1730--27578-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Alberdi 247 Piso 1º',price:49500,cur:'USD',beds:1,m2:30,slug:'departamentos-en-venta-en-tandil-alberdi-247--piso-1%C2%BA-piso-49660-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Las Heras 9',price:53000,cur:'USD',beds:1,m2:60,slug:'departamentos-en-venta-en-tandil-las-heras-9-44570-90.html'},
+  {tipo:'departamento',op:'venta',addr:'San Martín 1113',price:55000,cur:'USD',beds:2,m2:75,slug:'departamentos-en-venta-en-tandil-san-martin--1113--28923-90.html'},
+  {tipo:'departamento',op:'venta',addr:'25 de Mayo 1554',price:58000,cur:'USD',beds:1,m2:40,slug:'departamentos-en-venta-en-tandil-25-de-mayo-1554-depto--50345-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Alberdi 477 Piso 1º',price:59000,cur:'USD',beds:1,m2:45,slug:'departamentos-en-venta-en-tandil-alberdi-477-piso-1%C2%BA-piso--48123-90.html'},
+  {tipo:'departamento',op:'venta',addr:'11 de Septiembre 1230',price:60000,cur:'USD',beds:1,m2:40,slug:'departamentos-en-venta-en-tandil-11-de-septiembre-1230-48263-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Las Malvinas 1585',price:65000,cur:'USD',beds:1,m2:40,slug:'departamentos-en-venta-en-tandil-las-malvinas-1585-47625-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Falucho 1190 1º',price:68000,cur:'USD',beds:1,m2:53,slug:'departamentos-en-venta-en-tandil-falucho-1190-1%C2%BA--49661-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Chacabuco 1550 Piso 1º',price:70000,cur:'USD',beds:1,m2:50,slug:'departamentos-en-venta-en-tandil-chacabuco-1550--piso-1%C2%BA-piso-47954-90.html'},
+  {tipo:'departamento',op:'venta',addr:'CABA – Permuta por propiedad en Tandil',price:75000,cur:'USD',beds:1,m2:45,slug:'departamentos-en-venta-en-tandil-caba---permuto-por-propiedad-en-tandil-0-33708-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Uriburu 549 Piso 2°',price:78000,cur:'USD',beds:2,m2:60,slug:'departamentos-en-venta-en-tandil-uriburu-549-piso-2%C2%BA-piso---depto.-9-49807-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Rosalía de Castro 800',price:80000,cur:'USD',beds:2,m2:85,slug:'departamentos-en-venta-en-tandil-rosalia-de-castro-800-48266-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Uriburu 50 Piso 2',price:85000,cur:'USD',beds:2,m2:65,slug:'departamentos-en-venta-en-tandil-uriburu-50-piso-piso-2-47073-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Pinamar–Ostende, Alem 955 Piso 3',price:85000,cur:'USD',beds:2,m2:55,slug:'departamentos-en-venta-en-tandil-pinamar---ostende--alem--955--piso-3-49941-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Paz esq. Sarmiento 5',price:90000,cur:'USD',beds:3,m2:75,slug:'departamentos-en-venta-en-tandil-paz-esq-sarmiento--5-41914-90.html'},
+  {tipo:'departamento',op:'venta',addr:'14 de Julio 868',price:92000,cur:'USD',beds:1,m2:50,slug:'departamentos-en-venta-en-tandil-14-de-julio--868-47935-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Ezeiza 700',price:95000,cur:'USD',beds:1,m2:52,slug:'departamentos-en-venta-en-tandil-ezeiza-700-33706-90.html'},
+  {tipo:'departamento',op:'venta',addr:'San Martín 366 Piso 7',price:98000,cur:'USD',beds:2,m2:65,slug:'departamentos-en-venta-en-tandil-san-martin--366-depto-b-piso-7-50501-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Pinto 937 Piso 1º',price:120000,cur:'USD',beds:2,m2:120,slug:'departamentos-en-venta-en-tandil-pinto-937-piso-1%C2%BA-50383-90.html'},
+  {tipo:'departamento',op:'venta',addr:'San Martín 452 Piso 8',price:120000,cur:'USD',beds:3,m2:80,slug:'departamentos-en-venta-en-tandil-san-martin--452-piso-8-27080-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Maipú 875 Piso 3º',price:125000,cur:'USD',beds:2,m2:70,slug:'departamentos-en-venta-en-tandil-maipu-875-piso-3%C2%BA-piso-depto.-a-50279-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Av. España 829 Piso 7',price:130000,cur:'USD',beds:1,m2:57,slug:'departamentos-en-venta-en-tandil-avenida-espa%C3%B1a-829-piso-7-35808-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Sarmiento 574 Piso 5ºB',price:130000,cur:'USD',beds:3,m2:77,slug:'departamentos-en-venta-en-tandil-sarmiento-574-piso-5%C2%BAb-47152-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Mitre 357 – Renta semi-céntrica',price:135000,cur:'USD',beds:4,m2:150,slug:'departamentos-en-venta-en-tandil-renta-semi-centrica-mitre-357--36594-90.html'},
+  {tipo:'departamento',op:'venta',addr:'San Martín 542 Piso 2º A',price:135000,cur:'USD',beds:2,m2:90,slug:'departamentos-en-venta-en-tandil-san-martin-542-piso-2%C2%BA-a-32170-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Viamonte 228',price:140000,cur:'USD',beds:2,m2:85,slug:'departamentos-en-venta-en-tandil-viamonte-228-48265-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Rondeau 372',price:140000,cur:'USD',beds:1,m2:90,slug:'departamentos-en-venta-en-tandil-rondeau-372-47766-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Ezeiza y Santamaría de Oro',price:145000,cur:'USD',beds:2,m2:82,slug:'departamentos-en-venta-en-tandil-ezeiza-y-santamaria-de-oro-33707-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Navarro casi Lunghi',price:150000,cur:'USD',beds:null,m2:203,slug:'departamentos-en-venta-en-tandil-navarro-casi-lunghi-0--31631-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Chacabuco 800',price:150000,cur:'USD',beds:2,m2:88,slug:'departamentos-en-venta-en-tandil-chacabuco-800-33367-90.html'},
+  {tipo:'departamento',op:'venta',addr:'25 de Mayo 840 Piso 1° B',price:165000,cur:'USD',beds:2,m2:90,slug:'departamentos-en-venta-en-tandil-25-de-mayo-840-piso-1%C2%B0-b-50386-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Av. Perón 1180',price:180000,cur:'USD',beds:null,m2:107,slug:'departamentos-en-venta-en-tandil-av.-peron-1180--24703-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Montevideo 201 – Atención Inversores',price:185000,cur:'USD',beds:3,m2:300,slug:'departamentos-en-venta-en-tandil-atenci%C3%B3n-inversores!--montevideo--201-50700-90.html'},
+  {tipo:'departamento',op:'venta',addr:'9 de Julio 639',price:200000,cur:'USD',beds:4,m2:240,slug:'departamentos-en-venta-en-tandil-9-de-julio-639--43229-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Avellaneda 1668 Piso 1',price:210000,cur:'USD',beds:2,m2:101,slug:'departamentos-en-venta-en-tandil-avellaneda--1668-piso-1-49283-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Avellaneda 1425',price:210000,cur:'USD',beds:2,m2:78,slug:'departamentos-en-venta-en-tandil-avellaneda-1425-50036-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Sarmiento 977',price:218000,cur:'USD',beds:2,m2:93,slug:'departamentos-en-venta-en-tandil-sarmiento-977-35811-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Santamarina 862 Piso 2º',price:220000,cur:'USD',beds:2,m2:75,slug:'departamentos-en-venta-en-tandil-santamarina-862-depto-1-piso-2%C2%BA-47127-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Alem 813 (A)',price:240000,cur:'USD',beds:2,m2:84,slug:'departamentos-en-venta-en-tandil-alem--813--47279-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Av. España 829',price:255000,cur:'USD',beds:2,m2:106,slug:'departamentos-en-venta-en-tandil-av.-espa%C3%B1a-829-35745-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Alem 813 (B)',price:320000,cur:'USD',beds:2,m2:104,slug:'departamentos-en-venta-en-tandil-alem--813-47278-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Mitre esq. Paz Piso 12',price:340000,cur:'USD',beds:3,m2:120,slug:'departamentos-en-venta-en-tandil-mitre-esq-paz-piso-12-1--40098-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Chacabuco 454 Piso 7',price:500000,cur:'USD',beds:3,m2:135,slug:'departamentos-en-venta-en-tandil-chacabuco-454-7-40099-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Irigoyen 744 (Los Naranjos)',price:650000,cur:'USD',beds:3,m2:330,slug:'departamentos-en-venta-en-tandil-irigoyen-744-(los-naranjos)-50474-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Pinto 342 – 2 ambientes',price:0,cur:'Q',beds:2,m2:103,slug:'departamentos-en-venta-en-tandil-pinto-(e--14-de-julio-y-chacabuco)-342-51536-90.html'},
+  {tipo:'departamento',op:'venta',addr:'Pinto 342 – 1 ambiente',price:0,cur:'Q',beds:1,m2:65,slug:'departamentos-en-venta-en-tandil-pinto-342-51534-90.html'},
+  // LOTES EN VENTA (83)
+  {tipo:'lote',op:'venta',addr:'Financiación – Loteo Entre Ríos-Labarden',price:0,cur:'Q',beds:null,m2:4200,slug:'financiacion---loteo-entre-rios-labarden-36216-90.html'},
+  {tipo:'lote',op:'venta',addr:'Magnasco – P. Bicentenario',price:0,cur:'Q',beds:null,m2:160000,slug:'magnasco---p.-bicentenario-19667-90.html'},
+  {tipo:'lote',op:'venta',addr:'Pinto casi Santamarina',price:0,cur:'Q',beds:null,m2:1617,slug:'pinto-casi-santamarina-0--31465-90.html'},
+  {tipo:'lote',op:'venta',addr:'Segundo Sombra y Casacuberta',price:15500,cur:'USD',beds:null,m2:108,slug:'segundo-sombra-y-casacuberta-12762-90.html'},
+  {tipo:'lote',op:'venta',addr:'Ameghino e/ San Francisco y Argerich',price:17000,cur:'USD',beds:null,m2:376,slug:'ameghino-e--san-francisco-y-argerich-0--35716-90.html'},
+  {tipo:'lote',op:'venta',addr:'19 de Agosto – Gardey',price:17000,cur:'USD',beds:null,m2:375,slug:'19-de-agosto---gardey-26754-90.html'},
+  {tipo:'lote',op:'venta',addr:'Gardey – J. Vulcano esq. 19 de Agosto',price:20000,cur:'USD',beds:null,m2:437,slug:'gardey---j-vulcano-esq-19-de-agosto-0--15089-90.html'},
+  {tipo:'lote',op:'venta',addr:'Lote en Gardey',price:20000,cur:'USD',beds:null,m2:750,slug:'lote-en-gardey---31552-90.html'},
+  {tipo:'lote',op:'venta',addr:'Cuba y San Francisco',price:25000,cur:'USD',beds:null,m2:387,slug:'cuba-y-san-francisco-49871-90.html'},
+  {tipo:'lote',op:'venta',addr:'Caseros c/ Casacuberta',price:25000,cur:'USD',beds:null,m2:250,slug:'caseros-c--casacuberta-0--30694-90.html'},
+  {tipo:'lote',op:'venta',addr:'Picheuta entre Bolivia y Juldain',price:28000,cur:'USD',beds:null,m2:1000,slug:'picheuta-entre-bolivia-y-juldain-10871-90.html'},
+  {tipo:'lote',op:'venta',addr:'Picirilli y Chubut',price:29000,cur:'USD',beds:null,m2:1100,slug:'picirilli-y-chubut-0--28153-90.html'},
+  {tipo:'lote',op:'venta',addr:'Pío XII e/ Argerich y San Francisco 2127',price:30000,cur:'USD',beds:null,m2:520,slug:'pio-xii-e--argerich-y-san-francisco-2127-29127-90.html'},
+  {tipo:'lote',op:'venta',addr:'Zona Barrio Graduados – Oportunidad',price:30000,cur:'USD',beds:null,m2:350,slug:'zona-barrio-graduados---oportunidad!-0--40042-90.html'},
+  {tipo:'lote',op:'venta',addr:'Labarden entre Jurado y Cuba',price:31000,cur:'USD',beds:null,m2:693,slug:'labarden-entre-jurado-y-cuba-49872-90.html'},
+  {tipo:'lote',op:'venta',addr:'Salceda esq. La Blanca',price:32000,cur:'USD',beds:null,m2:355,slug:'salceda-esq.-la-blanca-49062-90.html'},
+  {tipo:'lote',op:'venta',addr:'Santa Fe 565',price:32000,cur:'USD',beds:null,m2:430,slug:'santa-fe-565-29648-90.html'},
+  {tipo:'lote',op:'venta',addr:'Eva Duarte y Guisse',price:34000,cur:'USD',beds:null,m2:346,slug:'eva-duarte-y-guisse-45986-90.html'},
+  {tipo:'lote',op:'venta',addr:'Casacuberta c/ Caseros',price:35000,cur:'USD',beds:null,m2:476,slug:'casacuberta-c--caseros-0--30695-90.html'},
+  {tipo:'lote',op:'venta',addr:'Magallanes casi P. Junta',price:35000,cur:'USD',beds:null,m2:779,slug:'magallanes-casi-p.-junta--35224-90.html'},
+  {tipo:'lote',op:'venta',addr:'Segundo Sombra – Argerich – Vistalli',price:35000,cur:'USD',beds:null,m2:476,slug:'segundo-sombra---argerich---vistalli---19044-90.html'},
+  {tipo:'lote',op:'venta',addr:'Juan B. Justo y Calihue',price:38000,cur:'USD',beds:null,m2:300,slug:'juan-b.-justo-y-calihue-29773-90.html'},
+  {tipo:'lote',op:'venta',addr:'Chapaleofu 700',price:38000,cur:'USD',beds:null,m2:996,slug:'chapaleofu-700--38329-90.html'},
+  {tipo:'lote',op:'venta',addr:'Pje. de los Graduados / Cerrilladas y Del Medio',price:40000,cur:'USD',beds:null,m2:465,slug:'pje-de-los-graduados-cerrill.y-del-medio-46239-90.html'},
+  {tipo:'lote',op:'venta',addr:'Ñandú – La Elena',price:45000,cur:'USD',beds:null,m2:1000,slug:'nandu---la-elena-51436-90.html'},
+  {tipo:'lote',op:'venta',addr:'Barrio Entre Sierras',price:45000,cur:'USD',beds:null,m2:1000,slug:'barrio-entre-sierras-26733-90.html'},
+  {tipo:'lote',op:'venta',addr:'Ijurco 2651',price:45000,cur:'USD',beds:null,m2:1000,slug:'ijurco-2651--29131-90.html'},
+  {tipo:'lote',op:'venta',addr:'Loteo – Zona El Calvario',price:49000,cur:'USD',beds:null,m2:375,slug:'loteo---zona-el-calvario-40152-90.html'},
+  {tipo:'lote',op:'venta',addr:'Jurado y Labarden',price:53000,cur:'USD',beds:null,m2:720,slug:'jurado-y-labarden-49873-90.html'},
+  {tipo:'lote',op:'venta',addr:'Filiberto 657',price:55000,cur:'USD',beds:null,m2:410,slug:'filiberto-657-49562-90.html'},
+  {tipo:'lote',op:'venta',addr:'Los Huesos 1810',price:55000,cur:'USD',beds:null,m2:2516,slug:'los-huesos-1810--29132-90.html'},
+  {tipo:'lote',op:'venta',addr:'Country Barrio La Mata',price:58000,cur:'USD',beds:null,m2:1600,slug:'country-barrio-la-mata-24249-90.html'},
+  {tipo:'lote',op:'venta',addr:'Importante Loteo',price:58000,cur:'USD',beds:null,m2:2000,slug:'importante-loteo!!!!-30197-90.html'},
+  {tipo:'lote',op:'venta',addr:'Los Álamos e/ Los Aromos y Scavini',price:60000,cur:'USD',beds:null,m2:650,slug:'los-alamos-e-los-aromos-y-scavini-51197-90.html'},
+  {tipo:'lote',op:'venta',addr:'San Francisco e/ Ijurco y Juárez',price:60000,cur:'USD',beds:null,m2:1935,slug:'san-francisco-e-ijurco-y-juarez-0--24892-90.html'},
+  {tipo:'lote',op:'venta',addr:'La Vaguada 23',price:60000,cur:'USD',beds:null,m2:1510,slug:'la-vaguada-23--41869-90.html'},
+  {tipo:'lote',op:'venta',addr:'Darragueira esq. Catamarca',price:62000,cur:'USD',beds:null,m2:4037,slug:'darragueira-esq.-catamarca-50765-90.html'},
+  {tipo:'lote',op:'venta',addr:'Las Lilas (Paraíso)',price:65000,cur:'USD',beds:null,m2:2100,slug:'las-lilas-(paraiso)-50031-90.html'},
+  {tipo:'lote',op:'venta',addr:'Lago del Fuerte – L. de Osornio',price:65000,cur:'USD',beds:null,m2:250,slug:'lago-del-fuerte---l.-de-osornio-47694-90.html'},
+  {tipo:'lote',op:'venta',addr:'Valle Sereno – Cipreses y Falkner',price:70000,cur:'USD',beds:null,m2:6660,slug:'valle-sereno---cipreses-y-falkner-0--32117-90.html'},
+  {tipo:'lote',op:'venta',addr:'La Mata – Lote 118',price:70000,cur:'USD',beds:null,m2:2158,slug:'la-mata---lote-118---43662-90.html'},
+  {tipo:'lote',op:'venta',addr:'Petunias (Paraíso)',price:75000,cur:'USD',beds:null,m2:2100,slug:'petunias-(paraiso)-50030-90.html'},
+  {tipo:'lote',op:'venta',addr:'Argerich e/ Pedersen y Rivas',price:80000,cur:'USD',beds:null,m2:974,slug:'argerich-e--pedersen-y-rivas---42379-90.html'},
+  {tipo:'lote',op:'venta',addr:'Osvaldo Zarini 1400',price:80000,cur:'USD',beds:null,m2:451,slug:'osvaldo-zarini-1400-17753-90.html'},
+  {tipo:'lote',op:'venta',addr:'Loteo en El Paraíso Solar de Las Chilcas',price:80000,cur:'USD',beds:null,m2:2000,slug:'loteo-en-el-paraiso-solar-de-las-chilcas-31148-90.html'},
+  {tipo:'lote',op:'venta',addr:'Barrio La Mata',price:80000,cur:'USD',beds:null,m2:1995,slug:'barrio-la-mata-50032-90.html'},
+  {tipo:'lote',op:'venta',addr:'Excelente Loteo en La Rural',price:84700,cur:'USD',beds:null,m2:1000,slug:'excelente-loteo-en-la-rural-29245-90.html'},
+  {tipo:'lote',op:'venta',addr:'Azcuénaga c/ L. de Osornio',price:85000,cur:'USD',beds:null,m2:389,slug:'azcuenaga-c--l.-de-osornio-0--28626-90.html'},
+  {tipo:'lote',op:'venta',addr:'Lobería 1450',price:85000,cur:'USD',beds:null,m2:696,slug:'loberia--1450-50033-90.html'},
+  {tipo:'lote',op:'venta',addr:'Jurado – Atención Constructores 2140',price:85000,cur:'USD',beds:null,m2:981,slug:'jurado---atencion-constructores!!-2140-29130-90.html'},
+  {tipo:'lote',op:'venta',addr:'Cardón Miramar Links Country',price:90000,cur:'USD',beds:null,m2:935,slug:'cardon-miramar-links-country---43508-90.html'},
+  {tipo:'lote',op:'venta',addr:'Azucena 750',price:90000,cur:'USD',beds:null,m2:1004,slug:'azucena-750-51297-90.html'},
+  {tipo:'lote',op:'venta',addr:'Matorras de San Martín e/ Brivio',price:92000,cur:'USD',beds:null,m2:1491,slug:'matorras-de-san-martin-e--brivio-y-ma-11826-90.html'},
+  {tipo:'lote',op:'venta',addr:'Lobería 1400',price:95000,cur:'USD',beds:null,m2:939,slug:'loberia-1400-50034-90.html'},
+  {tipo:'lote',op:'venta',addr:'Los Mimbres y Las Orquídeas',price:100000,cur:'USD',beds:null,m2:970,slug:'los-mimbres-y-las-orquideas-49996-90.html'},
+  {tipo:'lote',op:'venta',addr:'C. Pugliese casi Reforma Universitaria',price:105000,cur:'USD',beds:null,m2:720,slug:'c.-pugliese-casi-reforma-universitaria-49359-90.html'},
+  {tipo:'lote',op:'venta',addr:'Magnasco (Pque. Bicentenario)',price:105000,cur:'USD',beds:null,m2:698,slug:'magnasco-(pque.-bicentenario)-51517-90.html'},
+  {tipo:'lote',op:'venta',addr:'Carriego casi Gardel',price:110000,cur:'USD',beds:null,m2:450,slug:'carriego-casi-gardel-49793-90.html'},
+  {tipo:'lote',op:'venta',addr:'Luigi Polli',price:110000,cur:'USD',beds:null,m2:8746,slug:'luigi-polli-0--43630-90.html'},
+  {tipo:'lote',op:'venta',addr:'Los Pinos y Las Hortensias (Paraíso)',price:110000,cur:'USD',beds:null,m2:2092,slug:'los-pinos-y-las-hortensias-(paraiso)-51521-90.html'},
+  {tipo:'lote',op:'venta',addr:'Daglio casi Domínguez',price:120000,cur:'USD',beds:null,m2:1000,slug:'daglio-casi-dominguez-50120-90.html'},
+  {tipo:'lote',op:'venta',addr:'Country Golf Valle Escondido – Lote 223',price:120000,cur:'USD',beds:null,m2:1800,slug:'country-golf-valle-escondido---lote-223-47293-90.html'},
+  {tipo:'lote',op:'venta',addr:'Juan B. Justo y Suárez García',price:120000,cur:'USD',beds:null,m2:1850,slug:'juan-b.-justo-y-suarez-garcia-23456-90.html'},
+  {tipo:'lote',op:'venta',addr:'Country Altos Aires – Lote 60',price:120000,cur:'USD',beds:null,m2:2323,slug:'country-altos-aires---lote-60-0--40069-90.html'},
+  {tipo:'lote',op:'venta',addr:'Linstow (Zona Golf / Cardos) 1300',price:125000,cur:'USD',beds:null,m2:1702,slug:'linstow-(zona-golf---cardos)-1300-48320-90.html'},
+  {tipo:'lote',op:'venta',addr:'Roca esq. Uriburu',price:130000,cur:'USD',beds:null,m2:787,slug:'roca-esq.-uriburu-44574-90.html'},
+  {tipo:'lote',op:'venta',addr:'Country Club El Valle de Tandil',price:140000,cur:'USD',beds:null,m2:2211,slug:'country-club-el-valle-de-tandil-0--30436-90.html'},
+  {tipo:'lote',op:'venta',addr:'Domínguez esq. Los Olmos',price:140000,cur:'USD',beds:null,m2:2000,slug:'dominguez-esq.-los-olmos-0--33927-90.html'},
+  {tipo:'lote',op:'venta',addr:'Chacra 202 – Zona Quinta Bco. Provincia',price:160000,cur:'USD',beds:null,m2:7500,slug:'chacra-202---zona-quinta-bco.-provincia-17663-90.html'},
+  {tipo:'lote',op:'venta',addr:'Country Sierras de Tandil 10',price:160000,cur:'USD',beds:null,m2:770,slug:'country-sierras-de-tandil-10-45239-90.html'},
+  {tipo:'lote',op:'venta',addr:'San Martín 317',price:160000,cur:'USD',beds:null,m2:299,slug:'san-martin-317-38152-90.html'},
+  {tipo:'lote',op:'venta',addr:'Av. Buzón 658',price:160000,cur:'USD',beds:null,m2:500,slug:'av.-buzon-658-50503-90.html'},
+  {tipo:'lote',op:'venta',addr:'14 de Julio 740',price:170000,cur:'USD',beds:null,m2:384,slug:'14-de-julio-740-29520-90.html'},
+  {tipo:'lote',op:'venta',addr:'Avda. Pte. Perón 1428',price:180000,cur:'USD',beds:null,m2:1089,slug:'avda.-pte-peron--1428--41911-90.html'},
+  {tipo:'lote',op:'venta',addr:'Las Petunias, Los Naranjos y Las Lilas',price:180000,cur:'USD',beds:null,m2:6955,slug:'las-petunias-,-los-naranjos-y--las-lilas-48317-90.html'},
+  {tipo:'lote',op:'venta',addr:'Rivas 2153',price:200000,cur:'USD',beds:null,m2:2771,slug:'rivas-2153-16873-90.html'},
+  {tipo:'lote',op:'venta',addr:'Chacabuco 759',price:350000,cur:'USD',beds:null,m2:466,slug:'chacabuco-759--40287-90.html'},
+  {tipo:'lote',op:'venta',addr:'Lima y Baigorria',price:350000,cur:'USD',beds:null,m2:37559,slug:'lima-y-baigorria-51538-90.html'},
+  {tipo:'lote',op:'venta',addr:'Constitución 746',price:450000,cur:'USD',beds:null,m2:1743,slug:'constitucion-746--40899-90.html'},
+  {tipo:'lote',op:'venta',addr:'Atención Inversores – Avda. Estrada',price:530000,cur:'USD',beds:null,m2:202488,slug:'atencion-inversores---avda-estrada-50073-90.html'},
+  {tipo:'lote',op:'venta',addr:'Quinquela Martín – Díaz Vélez – Lima – Dhers',price:600000,cur:'USD',beds:null,m2:67000,slug:'quinquela-martin-diaz-velez--lima-dhers--41940-90.html'},
+  {tipo:'lote',op:'venta',addr:'Montevideo 150',price:850000,cur:'USD',beds:null,m2:4100,slug:'montevideo--150--15479-90.html'},
+  {tipo:'lote',op:'venta',addr:'Av. Aeronáutica Argentina 1850',price:1350000,cur:'USD',beds:null,m2:null,slug:'av.-aeronautica-arg.-1850-48715-90.html'},
+  // ALQUILERES (5)
+  {tipo:'casa',op:'alquiler',addr:'9 de Julio 1239',price:1450,cur:'USD',beds:3,m2:180,slug:'casas-en-alquiler-en-tandil-9-de-julio-1239-51112-90.html'},
+  {tipo:'casa',op:'alquiler',addr:'Brasil 368',price:1500,cur:'USD',beds:3,m2:120,slug:'casas-en-alquiler-en-tandil-brasil-368-40917-90.html'},
+  {tipo:'casa',op:'alquiler',addr:'Zona Uncas',price:2200,cur:'USD',beds:3,m2:333,slug:'casas-en-alquiler-en-tandil-zona-uncas-49805-90.html'},
+  {tipo:'casa',op:'alquiler',addr:'Bº Falucho XXII – Palacios y Pje. C',price:600000,cur:'P',beds:2,m2:60,slug:'casas-en-alquiler-en-tandil-b-falucho-xxii-palacios-y-pje.-c-50876-90.html'},
+  {tipo:'casa',op:'alquiler',addr:'Gardel 1040',price:850000,cur:'P',beds:2,m2:65,slug:'casas-en-alquiler-en-tandil-gardel--1040-50084-90.html'},
+];
+
+let filtered = [...PROPS];
+let shown = 24;
+
+function fmtM2(v) {
+  if (!v) return null;
+  if (v >= 10000) return (v / 10000).toFixed(1) + ' ha';
+  return v.toLocaleString('es-AR') + ' m²';
+}
+
+function fmtPrice(p) {
+  if (p.cur === 'Q') return 'Consultar';
+  if (p.cur === 'USD') return 'USD ' + p.price.toLocaleString('es-AR');
+  return '$ ' + p.price.toLocaleString('es-AR');
+}
+
+function renderCard(p, idx) {
+  const pool = IMGS[p.tipo] || IMGS.casa;
+  const img = pool[idx % pool.length];
+  const imgUrl = 'https://images.unsplash.com/' + img + '?w=500&q=75';
+  const badgeCls = p.op === 'alquiler' ? 'prop-badge alq' : 'prop-badge';
+  const badgeTxt = p.op === 'venta' ? 'VENTA' : 'ALQUILER';
+  const tipoLabel = {casa:'Casa',departamento:'Departamento',lote:'Lote'}[p.tipo] || p.tipo;
+  const priceStr = fmtPrice(p);
+  const priceSub = p.op === 'alquiler' ? '<span>por mes</span>' : '';
+  const bedsHtml = p.beds ? `<span class="prop-feat">🛏 ${p.beds >= 7 ? '7+' : p.beds} dorm.</span>` : '';
+  const m2v = fmtM2(p.m2);
+  const m2Html = m2v ? `<span class="prop-feat">📐 ${m2v}</span>` : '';
+  return `<div class="prop-card">
+    <div class="prop-img">
+      <img src="${imgUrl}" alt="${p.addr}" loading="lazy" />
+      <span class="${badgeCls}">${badgeTxt}</span>
+      <div class="prop-fav" onclick="toggleFav(this)">♡</div>
+    </div>
+    <div class="prop-body">
+      <div class="prop-type">${tipoLabel} · Tandil</div>
+      <h4>${p.addr}</h4>
+      <div class="prop-location">📍 Tandil, Buenos Aires</div>
+      <div class="prop-features">${bedsHtml}${m2Html}</div>
+      <div class="prop-foot">
+        <div class="prop-price">${priceStr}${priceSub}</div>
+        <a href="${BASE}${p.slug}" target="_blank" class="btn-prop">Ver más</a>
+      </div>
+    </div>
+  </div>`;
+}
+
+function applyFilters() {
+  const tipo = document.getElementById('fTipo').value;
+  const op = document.getElementById('fOp').value;
+  const dormVal = document.getElementById('fDorm').value;
+  const precioVal = document.getElementById('fPrecio').value;
+  const orden = document.getElementById('fOrden').value;
+
+  filtered = PROPS.filter(p => {
+    if (tipo && p.tipo !== tipo) return false;
+    if (op && p.op !== op) return false;
+    if (dormVal) {
+      if (p.beds === null) return false;
+      const d = parseInt(dormVal);
+      if (d === 4) { if (p.beds < 4) return false; }
+      else { if (p.beds !== d) return false; }
+    }
+    if (precioVal && p.cur === 'USD') {
+      const [lo, hi] = precioVal.includes('+') ? [parseInt(precioVal), Infinity] : precioVal.split('-').map(Number);
+      if (p.price < lo || p.price > hi) return false;
+    }
+    return true;
+  });
+
+  if (orden === 'precio_asc') filtered.sort((a,b) => (a.price||0)-(b.price||0));
+  else filtered.sort((a,b) => (b.price||0)-(a.price||0));
+
+  shown = 24;
+  document.getElementById('resultsCount').textContent = filtered.length;
+  renderGrid();
+
+  ['fTipo','fOp','fDorm','fPrecio'].forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.toggle('active-filter', el.value !== '');
+  });
+}
+
+function renderGrid() {
+  const grid = document.getElementById('propsGrid');
+  const noR = document.getElementById('noResults');
+  const lmw = document.getElementById('loadMoreWrap');
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    noR.style.display = 'block';
+    lmw.style.display = 'none';
+    return;
+  }
+  noR.style.display = 'none';
+  const slice = filtered.slice(0, shown);
+  grid.innerHTML = slice.map((p, i) => renderCard(p, i)).join('');
+  lmw.style.display = shown < filtered.length ? 'block' : 'none';
+}
+
+function loadMore() {
+  shown += 24;
+  renderGrid();
+  document.getElementById('loadMoreWrap').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function resetFilters() {
+  ['fTipo','fOp','fDorm','fPrecio'].forEach(id => {
+    document.getElementById(id).value = '';
+    document.getElementById(id).classList.remove('active-filter');
+  });
+  applyFilters();
+}
+
+function toggleFav(el) {
+  el.classList.toggle('saved');
+  el.textContent = el.classList.contains('saved') ? '♥' : '♡';
+}
+
+function init() {
+  const p = new URLSearchParams(location.search);
+  const tipoMap = {'Casa':'casa','Departamento / Dúplex':'departamento','Lote':'lote','Local / Oficina':'local','Galpón':'galpon','Cabaña / Hotel':'cabaña','Cochera':'cochera'};
+  const opMap = {'Comprar':'venta','Alquilar':'alquiler','Invertir en lote':'venta'};
+
+  if (p.get('tipo')) {
+    const v = tipoMap[p.get('tipo')] || p.get('tipo').toLowerCase();
+    const sel = document.getElementById('fTipo');
+    if ([...sel.options].some(o => o.value === v)) sel.value = v;
+  }
+  if (p.get('op')) {
+    const v = opMap[p.get('op')] || p.get('op').toLowerCase();
+    const sel = document.getElementById('fOp');
+    if ([...sel.options].some(o => o.value === v)) sel.value = v;
+  }
+  if (p.get('dorm') && p.get('dorm') !== 'Cualquiera') {
+    const d = p.get('dorm') === '3+' ? '3' : p.get('dorm');
+    const sel = document.getElementById('fDorm');
+    if ([...sel.options].some(o => o.value === d)) sel.value = d;
+  }
+  applyFilters();
+}
+
+init();
+</script>
+</body>
+</html>
